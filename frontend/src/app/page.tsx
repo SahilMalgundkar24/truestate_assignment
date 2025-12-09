@@ -63,7 +63,7 @@ const Page = () => {
   };
 
   const fetchFilters = () => {
-    fetch("http://localhost:5000/api/sales/filters")
+    fetch("https://truestate-assignment-smoky.vercel.app/api/sales/filters")
       .then((res) => res.json())
       .then((json) => {
         if (json?.data) setFilterOptions(json.data);
@@ -96,7 +96,9 @@ const Page = () => {
     params.set("sortBy", sort.sortBy);
     params.set("sortDir", sort.sortDir);
 
-    fetch(`http://localhost:5000/api/sales?${params.toString()}`)
+    fetch(
+      `https://truestate-assignment-smoky.vercel.app/api/sales?${params.toString()}`
+    )
       .then((res) => res.json())
       .then((json) => {
         setData(json.data || []);
