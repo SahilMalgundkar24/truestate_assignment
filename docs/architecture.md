@@ -19,6 +19,8 @@
 4. **Response:** Backend returns `{ success: true, data: [...] }` or an error payload.
 5. **Frontend consumption:** `page.tsx` stores the result in state; `MainTable` renders it with client-side search + pagination; other components display static summaries and navigation.
 
+6. Diagra, : https://www.figma.com/board/LV9LIgkoocaYu4XaQbZnrS/Untitled?node-id=0-1&t=AbcyE7sjeeQy8ebw-1
+
 ## Folder structure
 ```
 truestate/
