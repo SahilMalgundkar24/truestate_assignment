@@ -6,7 +6,6 @@ import { Copy } from "lucide-react";
 interface MainTableProps {
   data: any[];
   loading: boolean;
-  searchQuery: string;
 }
 
 const columns = [
@@ -38,21 +37,7 @@ const columns = [
   { key: "employee_name", label: "Employee Name" },
 ];
 
-const MainTable: React.FC<MainTableProps> = ({
-  data,
-  loading,
-  searchQuery,
-}) => {
-  const filteredData = data.filter((row) => {
-    const query = searchQuery.toLowerCase();
-    const phone = row.phone_number
-      ? String(row.phone_number).toLowerCase()
-      : "";
-    const name = row.customer_name ? row.customer_name.toLowerCase() : "";
-
-    return name.includes(query) || phone.includes(query);
-  });
-
+const MainTable: React.FC<MainTableProps> = ({ data, loading }) => {
   return (
     <div className="px-5 pb-10 overflow-auto custom-scrollbar">
       <table className="w-full">
@@ -75,14 +60,14 @@ const MainTable: React.FC<MainTableProps> = ({
                 Loading...
               </td>
             </tr>
-          ) : filteredData.length === 0 ? (
+          ) : data.length === 0 ? (
             <tr>
               <td colSpan={columns.length} className=" py-5 text-gray-500">
                 No records found.
               </td>
             </tr>
           ) : (
-            filteredData.map((row, idx) => (
+            data.map((row, idx) => (
               <tr key={idx}>
                 {columns.map((col) => (
                   <td key={col.key} className="px-6 py-3">

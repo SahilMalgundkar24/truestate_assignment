@@ -2,38 +2,41 @@
 
 ## 1. Overview
 
-This project is a Sales Management System that allows users to view, search, sort, and paginate large datasets of sales records. It provides a clean, responsive UI with efficient backend integration for performant data handling. The system supports real-time search, server-side pagination, and prepares the architecture for future filtering functionalities.
+This project is a Sales Management System that lets users view, search, filter, sort, and paginate sales records. The UI is clean and responsive, backed by server-side querying for accuracy and performance. Search, filters, sorting, and pagination all combine in one request.
 
 ## 2. Tech Stack
 
 * **Frontend:** Next.js (App Router), React, TypeScript, Tailwind CSS
 * **Backend:** Node.js, Express
 * **Database:** Supabase (PostgreSQL)
-* **Utilities:** Lodash (debounce), Lucide Icons
+* **Utilities:** Lucide Icons
 
 ## 3. Search Implementation Summary
 
-* Full-text, case-insensitive search across `customer_name` and `phone_number`.
-* Implemented on the backend for accurate and performant queries.
-* Frontend uses a debounced input to reduce unnecessary API calls.
+* Case-insensitive search across `customer_name`; numeric-safe match on `phone_number` when the query is digits.
+* Implemented on the backend; the Header input is debounced on the frontend.
 
 ## 4. Filter Implementation Summary
 
-* Filters can be added on backend query parameters.
-* Currently placeholder for future implementation with customer type, region, or order status.
-* Designed to retain active search, sort, and pagination states simultaneously.
+* Server-side filters with multi-select or ranges:
+  - Customer Region, Gender, Product Category, Tags, Payment Method
+  - Age ranges (presets), Date ranges (presets)
+* Filter options are fetched from `/api/sales/filters` (distinct values).
+* Filters combine with search, sorting, and pagination in a single query.
 
 ## 5. Sorting Implementation Summary
 
-* Sorting handled server-side to avoid loading large datasets on the frontend.
-* Columns can be sorted ascending or descending using query parameters.
-* Works seamlessly with search and pagination.
+* Server-side sorting:
+  - Date (newest first)
+  - Quantity
+  - Customer Name (A–Z)
+* Sorting respects active search, filters, and pagination.
 
 ## 6. Pagination Implementation Summary
 
-* Server-side pagination implemented with configurable page size (default 10 records per page).
-* Frontend displays dynamic page tabs with next/previous navigation.
-* Pagination works alongside active search and sorting states.
+* Server-side pagination (default 10 per page) using `page` and `pageSize`.
+* Backend returns `{ data, count }`; frontend builds PageTabs from `count`.
+* Works alongside active search, filters, and sorting.
 
 ## 7. Setup Instructions
 
@@ -54,5 +57,7 @@ This project is a Sales Management System that allows users to view, search, sor
    npm run dev
    ```
 3. Open your browser at `http://localhost:3000` to view the application.
-4. API endpoints are available at `http://localhost:5000/api/sales`.
+4. API endpoints:
+   - `GET http://localhost:5000/api/sales` (data with search/filters/sort/pagination)
+   - `GET http://localhost:5000/api/sales/filters` (distinct filter options)
 
