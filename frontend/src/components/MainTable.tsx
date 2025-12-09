@@ -1,169 +1,104 @@
-import { Copy } from "lucide-react";
-import React from "react";
+"use client";
 
-const data = [
-  {
-    transactionId: "TXN001",
-    date: "2025-12-08",
-    customerId: "CUST001",
-    customerName: "John Doe",
-    phoneNumber: "1234567890",
-    gender: "Male",
-    age: 30,
-    customerRegion: "North",
-    customerType: "Regular",
-    productId: "P001",
-    productName: "Laptop",
-    brand: "Dell",
-    productCategory: "Electronics",
-    tags: "New, Hot",
-    quantity: 2,
-    pricePerUnit: 1000,
-    discountPercentage: 10,
-    totalAmount: 2000,
-    finalAmount: 1800,
-    paymentMethod: "Credit Card",
-    orderStatus: "Delivered",
-    deliveryType: "Home Delivery",
-    storeId: "S001",
-    storeLocation: "New York",
-    salespersonId: "EMP001",
-    employeeName: "Alice Smith",
-  },
-  {
-    transactionId: "TXN002",
-    date: "2025-12-08",
-    customerId: "CUST002",
-    customerName: "Jane Roe",
-    phoneNumber: "0987654321",
-    gender: "Female",
-    age: 25,
-    customerRegion: "South",
-    customerType: "Premium",
-    productId: "P002",
-    productName: "Smartphone",
-    brand: "Samsung",
-    productCategory: "Electronics",
-    tags: "Sale",
-    quantity: 1,
-    pricePerUnit: 800,
-    discountPercentage: 5,
-    totalAmount: 800,
-    finalAmount: 760,
-    paymentMethod: "Cash",
-    orderStatus: "Pending",
-    deliveryType: "Store Pickup",
-    storeId: "S002",
-    storeLocation: "Los Angeles",
-    salespersonId: "EMP002",
-    employeeName: "Bob Johnson",
-  },
+import React from "react";
+import { Copy } from "lucide-react";
+
+interface MainTableProps {
+  data: any[];
+  loading: boolean;
+  searchQuery: string;
+}
+
+const columns = [
+  { key: "transaction_id", label: "Transaction ID" },
+  { key: "date", label: "Date" },
+  { key: "customer_id", label: "Customer ID" },
+  { key: "customer_name", label: "Customer Name" },
+  { key: "phone_number", label: "Phone Number" },
+  { key: "gender", label: "Gender" },
+  { key: "age", label: "Age" },
+  { key: "customer_region", label: "Customer Region" },
+  { key: "customer_type", label: "Customer Type" },
+  { key: "product_id", label: "Product ID" },
+  { key: "product_name", label: "Product Name" },
+  { key: "brand", label: "Brand" },
+  { key: "product_category", label: "Product Category" },
+  { key: "tags", label: "Tags" },
+  { key: "quantity", label: "Quantity" },
+  { key: "price_per_unit", label: "Price per Unit" },
+  { key: "discount_percentage", label: "Discount Percentage" },
+  { key: "total_amount", label: "Total Amount" },
+  { key: "final_amount", label: "Final Amount" },
+  { key: "payment_method", label: "Payment Method" },
+  { key: "order_status", label: "Order Status" },
+  { key: "delivery_type", label: "Delivery Type" },
+  { key: "store_id", label: "Store ID" },
+  { key: "store_location", label: "Store Location" },
+  { key: "salesperson_id", label: "Salesperson ID" },
+  { key: "employee_name", label: "Employee Name" },
 ];
 
-const MainTable: React.FC = () => {
+const MainTable: React.FC<MainTableProps> = ({
+  data,
+  loading,
+  searchQuery,
+}) => {
+  const filteredData = data.filter((row) => {
+    const query = searchQuery.toLowerCase();
+    const phone = row.phone_number
+      ? String(row.phone_number).toLowerCase()
+      : "";
+    const name = row.customer_name ? row.customer_name.toLowerCase() : "";
+
+    return name.includes(query) || phone.includes(query);
+  });
+
   return (
-    <div className="px-5 py-2 overflow-auto custom-scrollbar">
+    <div className="px-5 pb-10 overflow-auto custom-scrollbar">
       <table className="w-full">
-        <thead className="bg-[#f3f3f3] text-left text-primary whitespace-nowrap ">
+        <thead className="bg-[#f3f3f3] text-left text-primary whitespace-nowrap">
           <tr>
-            <th className="pl-3 py-3 font-normal text-sm">Transaction ID</th>
-            <th className="px-9 py-3 font-normal text-sm">Date</th>
-            <th className="px-9 py-3 font-normal text-sm ">Customer ID</th>
-            <th className="px-9 py-3 font-normal text-sm">Customer Name</th>
-            <th className="px-9 py-3 font-normal text-sm">Phone Number</th>
-            <th className="px-9 py-3 font-normal text-sm">Gender</th>
-            <th className="px-9 py-3 font-normal text-sm">Age</th>
-            <th className="px-9 py-3 font-normal text-sm">Customer Region</th>
-            <th className="px-9 py-3 font-normal text-sm">Customer Type</th>
-            <th className="px-9 py-3 font-normal text-sm">Product ID</th>
-            <th className="px-9 py-3 font-normal text-sm">Product Name</th>
-            <th className="px-9 py-3 font-normal text-sm">Brand</th>
-            <th className="px-9 py-3 font-normal text-sm">Product Category</th>
-            <th className="px-9 py-3 font-normal text-sm">Tags</th>
-            <th className="px-9 py-3 font-normal text-sm">Quantity</th>
-            <th className="px-9 py-3 font-normal text-sm">Price per Unit</th>
-            <th className="px-9 py-3 font-normal text-sm">
-              Discount Percentage
-            </th>
-            <th className="px-9 py-3 font-normal text-sm">Total Amount</th>
-            <th className="px-9 py-3 font-normal text-sm">Final Amount</th>
-            <th className="px-9 py-3 font-normal text-sm">Payment Method</th>
-            <th className="px-9 py-3 font-normal text-sm">Order Status</th>
-            <th className="px-9 py-3 font-normal text-sm">Delivery Type</th>
-            <th className="px-9 py-3 font-normal text-sm">Store ID</th>
-            <th className="px-9 py-3 font-normal text-sm">Store Location</th>
-            <th className="px-9 py-3 font-normal text-sm">Salesperson ID</th>
-            <th className="px-9 py-3 font-normal text-sm">Employee Name</th>
+            {columns.map((col) => (
+              <th
+                key={col.key}
+                className="px-6 py-3 font-normal text-sm bg-[#f3f3f3] sticky top-0 z-20"
+              >
+                {col.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody className="text-sm text-black whitespace-nowrap">
-          {data.map((row, idx) => (
-            <tr key={idx} className="">
-              <td className="pl-3 py-1 text-primary">{row.transactionId}</td>
-              <td className="px-9 py-3 font-normal text-sm text-primary">
-                {row.date}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.customerId}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.customerName}
-              </td>
-              <td className="flex items-center gap-3 px-9 py-3 font-normal text-sm text-primary">
-                {row.phoneNumber}
-                <Copy size={16} className="cursor-pointer " />
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">{row.gender}</td>
-              <td className="px-9 py-3 font-normal text-sm">{row.age}</td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.customerRegion}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.customerType}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">{row.productId}</td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.productName}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">{row.brand}</td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.productCategory}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">{row.tags}</td>
-              <td className="px-9 py-3 font-normal text-sm">{row.quantity}</td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.pricePerUnit}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.discountPercentage}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.totalAmount}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.finalAmount}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.paymentMethod}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.orderStatus}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.deliveryType}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">{row.storeId}</td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.storeLocation}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.salespersonId}
-              </td>
-              <td className="px-9 py-3 font-normal text-sm">
-                {row.employeeName}
+          {loading ? (
+            <tr>
+              <td colSpan={columns.length} className=" py-5 text-primary">
+                Loading...
               </td>
             </tr>
-          ))}
+          ) : filteredData.length === 0 ? (
+            <tr>
+              <td colSpan={columns.length} className=" py-5 text-gray-500">
+                No records found.
+              </td>
+            </tr>
+          ) : (
+            filteredData.map((row, idx) => (
+              <tr key={idx}>
+                {columns.map((col) => (
+                  <td key={col.key} className="px-6 py-3">
+                    {col.key === "phone_number" ? (
+                      <div className="flex items-center gap-2">
+                        {row[col.key]}
+                        <Copy size={16} className="cursor-pointer" />
+                      </div>
+                    ) : (
+                      row[col.key]
+                    )}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
     </div>
