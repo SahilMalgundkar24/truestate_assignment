@@ -19,6 +19,8 @@
 4. **Response:** Backend returns `{ success: true, data, count }` (or `{ success: false, message }` on error).
 5. **Frontend consumption:** `page.tsx` stores `data` and `count`, updates pagination; `MainTable` renders rows; `FilterHeader` and `Header` update state that re-triggers data fetch; `PageTabs` drives `page`.
 
+6. Diagra, : https://www.figma.com/board/LV9LIgkoocaYu4XaQbZnrS/Untitled?node-id=0-1&t=AbcyE7sjeeQy8ebw-1
+
 ## Folder structure
 ```
 truestate/
